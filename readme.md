@@ -1,6 +1,6 @@
 #iPay88
 
-##iPay88 Prestashop module lets your customer pay their transactions with the iPay88 gateway. All you need is to contact the iPay88 support team to get your credentials.
+####iPay88 Prestashop module lets your customer pay their transactions with the iPay88 gateway. All you need is to contact the iPay88 support team to get your credentials.
 
 ###How to use this:
 
