@@ -150,7 +150,7 @@ class iPay88 extends PaymentModule
 			'customer'		=> $this->context->cookie->customer_firstname,
 			'email'			=> $this->context->cookie->email,
 			'tel'			=> $this->getPhoneNumber($this->context->customer->id),
-			'signature'		=> Tools::iPay88_signature(Configuration::get('MKEY') . Configuration::get('MCODE') . $this->context->cart->id . str_replace(".", "", $this->context->cart->getOrderTotal(true,Cart::BOTH)) . $this->context->currency->iso_code ),
+			'signature'		=> $this->iPay88_signature(Configuration::get('MKEY') . Configuration::get('MCODE') . $this->context->cart->id . str_replace(".", "", $this->context->cart->getOrderTotal(true,Cart::BOTH)) . $this->context->currency->iso_code ),
 			'logoURL' 		=> Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/'.$this->name.'/images/logo.jpg',
 			'responseURL' 	=> $this->context->link->getModuleLink('ipay88', 'receive'),
 			'backendPostURL'=> $this->context->link->getModuleLink('ipay88', 'backendposturl'),
@@ -183,7 +183,7 @@ class iPay88 extends PaymentModule
 	{
 		$sql = '
 			SELECT a.phone
-			FROM ps_address AS a
+			FROM '._DB_PREFIX_.'address AS a
 			WHERE id_customer = '. $id_customer .'
 			AND a.phone <> ""
 			GROUP BY a.id_customer
@@ -232,5 +232,18 @@ class iPay88 extends PaymentModule
         $os->save();
         
         return $os->id;
-    }	
+    }
+
+	public function iPay88_signature($source)
+	{
+		return base64_encode(hex2bin(sha1($source)));
+	}
+
+	public function hex2bin($hexSource)
+	{
+		for ($i=0;$i<strlen($hexSource);$i=$i+2) {
+			$bin .= chr(hexdec(substr($hexSource,$i,2))); 
+			return $bin;		
+		}
+	}
 }

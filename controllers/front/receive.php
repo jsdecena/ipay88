@@ -44,7 +44,7 @@ class iPay88ReceiveModuleFrontController extends ModuleFrontController
 		if (isset($_REQUEST['Status'])) :
 
 			//RESPONSE SIG CONTAINS ADDITIONAL PAYMENT ID [3RD PARAM] ( 1 FOR MASTERCARD/ VISA ) AND THE LAST PARAMETER WHICH IS THE STATUS CODE
-			$response_sig = Tools::iPay88_signature(
+			$response_sig = $this->iPay88_signature(
 				Configuration::get('MKEY') . //MERCHANT KEY
 				Configuration::get('MCODE') . //MERCHANT CODE
 				"1" . // 1 FOR MASTERCARD / VISA 
